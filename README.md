@@ -33,7 +33,7 @@ s := set.NewIntTuple(2)
 g := abelian.New(s, s.Add)
 
 // The given Set s implements
-// - Less(x, y Elem) bool
+// - LessEqual(x, y Elem) bool
 // - Interval(lo, hi Elem) Enumerable
 subset := g.Set.(prop.PartialOrdered).Interval(s.Tuple(1, 1), s.Tuple(2, 2))
 for i, tuple := range subset.Slice() {
