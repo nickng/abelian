@@ -103,9 +103,39 @@ func (s IntTupleSet) Less(x, y Elem) bool {
 	return x.(IntTuple).Compare(y) < 0
 }
 
+// Lt returns x < y.
+func (s IntTupleSet) Lt(x, y Elem) bool {
+	return x.(IntTuple).Compare(y) < 0
+}
+
+// Gt returns x > y.
+func (s IntTupleSet) Gt(x, y Elem) bool {
+	return x.(IntTuple).Compare(y) > 0
+}
+
 // LessEqual returns x ≤ y.
 func (s IntTupleSet) LessEqual(x, y Elem) bool {
 	return x.(IntTuple).Compare(y) <= 0
+}
+
+// Le returns x ≤ y.
+func (s IntTupleSet) Le(x, y Elem) bool {
+	return x.(IntTuple).Compare(y) <= 0
+}
+
+// Ge returns x ≥ y.
+func (s IntTupleSet) Ge(x, y Elem) bool {
+	return x.(IntTuple).Compare(y) >= 0
+}
+
+// Equal returns x == y.
+func (s IntTupleSet) Equal(x, y Elem) bool {
+	return x.(IntTuple).Compare(y) == 0
+}
+
+// Eq returns x == y.
+func (s IntTupleSet) Eq(x, y Elem) bool {
+	return x.(IntTuple).Compare(y) == 0
 }
 
 // Interval returns a finite enumerable range.

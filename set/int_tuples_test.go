@@ -168,3 +168,56 @@ func TestEnumerate(t *testing.T) {
 		check(want, iv.Slice(), e)
 	})
 }
+
+func TestComparision(t *testing.T) {
+	s := NewIntTuple(1)
+	one, two := s.Tuple(1), s.Tuple(2)
+	if !s.Less(one, two) {
+		t.Errorf("expecting Less(%v,%v) = true", one, two)
+	}
+	if s.Less(two, one) {
+		t.Errorf("expecting Less(%v,%v) = false", two, one)
+	}
+	if !s.Lt(one, two) {
+		t.Errorf("expecting Lt(%v,%v) = true", one, two)
+	}
+	if s.Lt(two, one) {
+		t.Errorf("expecting Lt(%v,%v) = false", two, one)
+	}
+	if !s.Gt(two, one) {
+		t.Errorf("expecting Gt(%v,%v) = false", two, one)
+	}
+	if s.Gt(one, two) {
+		t.Errorf("expecting Gt(%v,%v) = true", one, two)
+	}
+	if !s.LessEqual(one, two) {
+		t.Errorf("expecting LessEqual(%v,%v) = true", one, two)
+	}
+	if !s.LessEqual(one, one) {
+		t.Errorf("expecting LessEqual(%v,%v) = true", one, one)
+	}
+	if !s.Le(one, two) {
+		t.Errorf("expecting Le(%v,%v) = true", one, two)
+	}
+	if !s.Le(one, one) {
+		t.Errorf("expecting Le(%v,%v) = true", one, one)
+	}
+	if s.Ge(one, two) {
+		t.Errorf("expecting Ge(%v,%v) = true", one, two)
+	}
+	if !s.Ge(one, one) {
+		t.Errorf("expecting Ge(%v,%v) = true", one, one)
+	}
+	if !s.Equal(one, one) {
+		t.Errorf("expecting Equal(%v,%v) = true", one, one)
+	}
+	if s.Equal(one, two) {
+		t.Errorf("expecting Equal(%v,%v) = false", one, two)
+	}
+	if !s.Eq(one, one) {
+		t.Errorf("expecting Eq(%v,%v) = true", one, one)
+	}
+	if s.Eq(one, two) {
+		t.Errorf("expecting Eq(%v,%v) = false", one, two)
+	}
+}
