@@ -1,3 +1,5 @@
+// +build go1.10
+
 // Package set implements a Set data structure.
 package set
 

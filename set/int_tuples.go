@@ -1,7 +1,6 @@
 package set
 
 import (
-	"bytes"
 	"fmt"
 	"log"
 	"strconv"
@@ -231,7 +230,7 @@ func (e IntTuple) String() string {
 
 	// e.Size() == 0: ()
 	// e.Size() >= 2: (e[0],e[1],...)
-	var buf bytes.Buffer
+	var buf strings.Builder
 	buf.WriteRune('(')
 	for i := range e {
 		if i != 0 {
