@@ -221,3 +221,32 @@ func TestComparision(t *testing.T) {
 		t.Errorf("expecting Eq(%v,%v) = false", one, two)
 	}
 }
+
+func TestIntervalSubset(t *testing.T) {
+	s := NewIntTuple(2)
+	iv := s.Interval(s.Tuple(1, 2), s.Tuple(3, 2))
+	subset, ok := iv.(Set)
+	if !ok {
+		t.Errorf("Interval should be a set too")
+		t.FailNow()
+	}
+	t.Logf("subset %s: Identity=%s", subset.Name(), subset.Identity().String())
+	if low := s.Tuple(1, 1); subset.IsIn(low) {
+		t.Errorf("%s should not be in the interval %s", low.String(), subset.Name())
+	}
+	if v := s.Tuple(1, 2); !subset.IsIn(v) {
+		t.Errorf("%s should be in the interval %s", v.String(), subset.Name())
+	}
+	if v := s.Tuple(2, 2); !subset.IsIn(v) {
+		t.Errorf("%s should be in the interval %s", v.String(), subset.Name())
+	}
+	if v := s.Tuple(3, 2); !subset.IsIn(v) {
+		t.Errorf("%s should be in the interval %s", v.String(), subset.Name())
+	}
+	if v := s.Tuple(4, 2); subset.IsIn(v) {
+		t.Errorf("%s should not be in the interval %s", v.String(), subset.Name())
+	}
+	if v := s.Tuple(3, 3); subset.IsIn(v) {
+		t.Errorf("%s should not be in the interval %s", v.String(), subset.Name())
+	}
+}

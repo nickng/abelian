@@ -140,7 +140,7 @@ func (s IntTupleSet) Eq(x, y Elem) bool {
 // Interval returns a finite enumerable range.
 // { a | a1 ≤ a ≤ a2 }
 func (s IntTupleSet) Interval(a1, a2 Elem) Enumerable {
-	return IntTupleInterval{lo: a1.(IntTuple), hi: a2.(IntTuple)}
+	return IntTupleInterval{Set: s, lo: a1.(IntTuple), hi: a2.(IntTuple)}
 }
 
 // IntTupleInterval is a finite subset of IntTuple
