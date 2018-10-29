@@ -180,6 +180,24 @@ func (r IntTupleInterval) Slice() []Elem {
 	return s
 }
 
+// intersect performs set intersection between r and all rs.
+func (r IntTupleInterval) intersect(rs ...IntTupleInterval) (result IntTupleInterval, empty bool) {
+	lo, hi := r.lo, r.hi
+	// lo..hi ∩ rs[i].lo..rs[i].hi
+	for i := range rs {
+		if lo.Compare(rs[i].lo) < 0 { // shrink left bound
+			lo = rs[i].lo
+		}
+		if rs[i].hi.Compare(hi) < 0 { // shrink right bound
+			hi = rs[i].hi
+		}
+		if lo.Compare(hi) > 0 {
+			return IntTupleInterval{Set: r}, true
+		}
+	}
+	return IntTupleInterval{Set: r, lo: lo, hi: hi}, false
+}
+
 // IntTupleIter is a IntTuple iterator.
 type IntTupleIter struct {
 	IntTupleInterval

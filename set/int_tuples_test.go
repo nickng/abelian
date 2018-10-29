@@ -250,3 +250,40 @@ func TestIntervalSubset(t *testing.T) {
 		t.Errorf("%s should not be in the interval %s", v.String(), subset.Name())
 	}
 }
+
+func TestIntervalIntersect(t *testing.T) {
+	t.Run("OneRange", func(t *testing.T) {
+		s := NewIntTuple(1)
+		iv := s.Interval(s.Tuple(1), s.Tuple(10))
+		if v, empty := iv.(IntTupleInterval).intersect(); empty {
+			t.Errorf("The interval should not be empty but got %s", v.Name())
+		} else if v.lo.Compare(s.Tuple(1)) != 0 || v.hi.Compare(s.Tuple(10)) != 0 {
+			t.Errorf("expecting 1..10 but got %s", v.Name())
+		}
+	})
+	t.Run("NonEmpty", func(t *testing.T) {
+		s := NewIntTuple(1)
+		iv := s.Interval(s.Tuple(1), s.Tuple(10))
+		if v, empty := iv.(IntTupleInterval).intersect(
+			s.Interval(s.Tuple(1), s.Tuple(10)).(IntTupleInterval),
+			s.Interval(s.Tuple(2), s.Tuple(4)).(IntTupleInterval),
+			s.Interval(s.Tuple(4), s.Tuple(18)).(IntTupleInterval),
+		); empty {
+			t.Errorf("The interval should not be empty but got %s", v.Name())
+		} else if v.lo.Compare(s.Tuple(4)) != 0 || v.hi.Compare(s.Tuple(4)) != 0 {
+			t.Errorf("expecting 4..4 but got %s", v.Name())
+		}
+	})
+	t.Run("Empty", func(t *testing.T) {
+		s := NewIntTuple(1)
+		iv := s.Interval(s.Tuple(1), s.Tuple(10))
+		if v, empty := iv.(IntTupleInterval).intersect(
+			s.Interval(s.Tuple(1), s.Tuple(10)).(IntTupleInterval),
+			s.Interval(s.Tuple(2), s.Tuple(4)).(IntTupleInterval),
+			s.Interval(s.Tuple(9), s.Tuple(18)).(IntTupleInterval),
+			s.Interval(s.Tuple(1), s.Tuple(3)).(IntTupleInterval),
+		); !empty {
+			t.Errorf("The interval should be empty but got %s", v.Name())
+		}
+	})
+}
